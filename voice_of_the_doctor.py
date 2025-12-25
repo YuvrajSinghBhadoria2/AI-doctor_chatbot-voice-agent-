@@ -4,7 +4,7 @@ import os
 load_dotenv()
 
 def text_to_speech_with_gtts_old(text,output_filepath):
-    language = 'en'
+    language = 'hi'  # Hindi language code
 
     audioobj=gTTS(
         text=text, lang=language,slow=False
@@ -44,7 +44,7 @@ import subprocess
 import platform
 
 def text_to_speech_with_gtts(input_text, output_filepath):
-    language="en"
+    language="hi"  # Hindi language code
 
     audioobj= gTTS(
         text=input_text,
@@ -75,7 +75,8 @@ def text_to_speech_with_elevenlabs(input_text, output_filepath):
     audio_stream = client.text_to_speech.convert(
         voice_id="21m00Tcm4TlvDq8ikWAM",  # Rachel - a standard voice ID
         output_format="mp3_22050_32",
-        text=input_text
+        text=input_text,
+        model_id="eleven_multilingual_v2"  # Using multilingual model for Hindi support
     )
     
     # Save the audio stream to file

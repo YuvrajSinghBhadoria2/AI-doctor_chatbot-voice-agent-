@@ -50,7 +50,24 @@ def transcribe_with_groq(stt_model, audio_filepath):
 
     audio_file=open(audio_filepath, "rb")
 
-    transcription = client.audio.transcriptions.create(file=audio_file, model=stt_model, language="en")
+    # Transcribe without specifying language to allow auto-detection
+    # If auto-detection is not supported, we'll use 'auto' or default to trying both
+    try:
+        # Try transcription without specifying language (some models support auto-detection)
+        transcription = client.audio.transcriptions.create(file=audio_file, model=stt_model)
+    except Exception as e:
+        # If auto-detection fails, try English first
+        try:
+            audio_file = open(audio_filepath, "rb")
+            transcription = client.audio.transcriptions.create(file=audio_file, model=stt_model, language="en")
+        except Exception as e1:
+            # If English fails, try Hindi
+            try:
+                audio_file = open(audio_filepath, "rb")
+                transcription = client.audio.transcriptions.create(file=audio_file, model=stt_model, language="hi")
+            except Exception as e2:
+                print(f"Both English and Hindi transcription failed: {e1}, {e2}")
+                raise e
 
 
     return transcription.text
