@@ -1,6 +1,6 @@
 # AI Doctor Chatbot with Voice and Vision
 
-An advanced AI-powered doctor chatbot that combines voice recognition, image analysis, and text-to-speech capabilities to provide medical consultations through natural conversation and visual analysis.
+An advanced AI-powered doctor chatbot that combines voice recognition, image analysis, and text-to-speech capabilities to provide medical consultations through natural conversation and visual analysis. Now supports bilingual (Hindi/English) input and output with automatic language detection.
 
 ## Features
 
@@ -9,15 +9,34 @@ An advanced AI-powered doctor chatbot that combines voice recognition, image ana
 - **Medical Consultation**: AI-powered medical advice based on user input and images
 - **Voice Output**: Text-to-speech conversion for natural audio responses
 - **Web Interface**: Gradio-based UI for easy interaction
+- **Bilingual Support**: Automatic language detection and response in Hindi or English based on user input
 
 ## Architecture
 
-The application consists of three main components:
+The application follows a modular architecture with the following components:
 
-1. **Voice of the Patients** (`voice_of_the_patients.py`): Handles audio recording and speech-to-text conversion
-2. **Brain of the Doctor** (`Brain_of_the_doctor.py`): Processes medical queries and image analysis
-3. **Voice of the Doctor** (`voice_of_the_doctor.py`): Converts responses to speech
-4. **Gradio Interface** (`gradio_app.py`): Web-based user interface
+1. **Voice of the Patients** (`voice_of_the_patients.py`): Handles audio recording and speech-to-text conversion with bilingual (Hindi/English) support using Groq's Whisper API
+2. **Brain of the Doctor** (`Brain_of_the_doctor.py`): Processes medical queries and image analysis using vision models
+3. **Voice of the Doctor** (`voice_of_the_doctor.py`): Converts text responses to speech using ElevenLabs TTS with multilingual support
+4. **Gradio Interface** (`gradio_app.py`): Web-based user interface that integrates all components
+
+### Architecture Diagram
+
+```mermaid
+graph TB
+    A[User Input] --> B{Language Detection}
+    B -->|English| C[English Processing]
+    B -->|Hindi| D[Hindi Processing]
+    C --> E[Voice of Patients Module]
+    D --> E
+    E --> F[Brain of Doctor Module]
+    F --> G[Voice of Doctor Module]
+    G --> H[Audio Response]
+    I[Image Input] --> F
+    J[Audio Input] --> E
+```
+
+The system automatically detects the input language and processes the request accordingly, ensuring responses are generated in the same language as the input.
 
 ## Technologies Used
 
