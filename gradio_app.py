@@ -52,5 +52,8 @@ iface = gr.Interface(
 
 )
 
-iface.launch(debug=True)
+iface.launch(
+    server_name="0.0.0.0",
+    server_port=7860, debug=True
+)
 
